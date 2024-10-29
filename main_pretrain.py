@@ -63,8 +63,10 @@ if __name__ == '__main__':
     print(args)
     feature_dim, temperature, k = args.feature_dim, args.temperature, args.k
     batch_size, epochs = args.batch_size, args.epochs
+    datafile = args.datafile
 
-    train_data = TestbedDataset(root=args.path, dataset='tryout', patt='_gat')
+    # train_data = TestbedDataset(root=args.path, dataset='tryout', patt='_gat')
+    train_data = TestbedDataset(root=args.path, dataset=datafile, patt='_gat')
 
     print('use GAT encoder')
     model_encoder1 = GATNet()

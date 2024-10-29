@@ -8,13 +8,10 @@ from torch_geometric.data import DataLoader
 from encoder_gat import GATNet
 from model_clr_downstream import Model
 import torch.nn as nn
+import numpy as np
 import math
 import os
 os.environ['CUDA_VISIBLE_DEVICES']='0'
-
-""""
-药物下游任务
-"""
 
 def compute_mae_mse_rmse(target,prediction):
     error = []
@@ -108,6 +105,7 @@ if __name__ == '__main__':
     parser.add_argument('--k', default=200, type=int, help='Top k most similar images used to predict the label')
     parser.add_argument('--batch_size', default=128, type=int, help='Number of images in each mini-batch')
     parser.add_argument('--epochs', default=500, type=int, help='Number of sweeps over the dataset to train')
+    parser.add_argument('--dataset', default='BBBP', type=str, help='Dataset to run downstream task on')
     # args parse
     args = parser.parse_args()
 
@@ -118,7 +116,8 @@ if __name__ == '__main__':
 
     # best_tasks = SIDER scaffold ClinTox SIDER
     clr_tasks = {'BBBP': 1, 'HIV': 1, 'BACE': 1, 'Tox21': 12, 'ClinTox': 2, 'SIDER': 27, 'MUV': 17}
-    task = 'BBBP'
+    # task = 'BBBP'
+    task = args.dataset
     # data prepare
     train_data = TestbedDataset(root=args.path, dataset='train', task=task)
     valid_data = TestbedDataset(root=args.path, dataset='valid', task=task)
@@ -141,6 +140,8 @@ if __name__ == '__main__':
 
     loss_fn = nn.BCELoss()
     optimizer = torch.optim.Adam(model.pre.parameters(), lr=0.0001, weight_decay=1e-7)
+
+    device = ("cuda" if torch.cuda.is_available() else "cpu")
 
     save_file ='{}_{}_{}'.format(batch_size, epochs,task)
     if not os.path.exists('results/down_task/clr/model_encoder_'+encoder_file+'_'+task):

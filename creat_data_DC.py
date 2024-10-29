@@ -1,6 +1,8 @@
 from rdkit import Chem
 import numpy as np
 from rdkit.Chem import rdmolfiles, rdmolops
+from itertools import islice
+import networkx as nx
 
 def get_cell_feature(cellId, cell_features):
     for row in islice(cell_features, 0, None):

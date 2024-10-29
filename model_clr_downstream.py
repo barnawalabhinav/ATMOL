@@ -1,9 +1,6 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
-"""
-下游任务 GAT模型
-"""
 class Model(nn.Module):
     def __init__(self, n_output=1, output_dim=128, dropout=0.2, encoder=None):
         super(Model, self).__init__()
