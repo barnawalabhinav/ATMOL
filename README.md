@@ -41,7 +41,7 @@ The 7 datasets were BBBP, BACE, HIV, ClinTox, Tox21, SIDER and MUV.
 ## ATMOl Usage
 ### Train Model
 ```
-python main_pretain.py --batch_size 512 --epochs 500 --datafile in-vitro
+python main_pretrain.py --batch_size 512 --epochs 500 --datafile in-vitro
 optional arguments:
 --feature_dim                 Feature dim for latent vector [default value is 128]
 --temperature                 Temperature used in softmax [default value is 0.5]
@@ -65,7 +65,7 @@ del_indices = get_rouletteIndex(weight, len(weight)) + count
 
 ### Downstream Evaluation
 ```
-python model_clr_downstream.py --batch_size 128 --epochs 500 
+python main_clr_downstream.py --batch_size 128 --epochs 500 
 optional arguments:
 --model_path                  The pretrained model path [default value is 'results/128_0.5_200_512_500_model.pth']
 --batch_size                  Number of images in each mini-batch [default value is 128]

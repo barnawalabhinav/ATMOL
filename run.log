@@ -1,0 +1,10 @@
+spawn qsub -I -q standard -P col870.course -l select=1:ncpus=1:ngpus=1:centos=icelake:mem=64 -l walltime=10:00:00
+qsub: waiting for job 180712.pbshpc to start
+cd ~/COL870/ATMOL
+conda activate atmol
+source ~/setup_proxy.sh logout
+source ~/setup_proxy.sh &> proxy.log &
+source ~/export_proxy.sh
+python main_clr_downstream.py --batch_size 128 --epochs 500 --dataset MUV
+python main_pretrain.py --batch_size 512 --epochs 500 --datafile in-vitro
+python main_pretrain.py --batch_size 512 --epochs 500 --datafile now
